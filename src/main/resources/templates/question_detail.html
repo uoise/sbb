@@ -6,6 +6,16 @@
 </head>
 <body>
 <h1 th:text="${question.getSubject()}">제목</h1>
-<div th:text="${question.getContent()}">내용</div>
+<div>
+    <ul>
+        <li th:each="answer : ${question.answerList}" th:text="${answer.getContent()}">내용</li>
+    </ul>
+</div>
+
+
+<form th:action="@{|/answer/create/${question.getId()}|}" method="post">
+    <textarea name="content" id="content" rows="15"></textarea>
+    <input type="submit" value="답변등록">
+</form>
 </body>
 </html>

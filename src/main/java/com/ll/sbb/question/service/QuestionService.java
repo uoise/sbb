@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,11 @@ public class QuestionService {
         } else {
             throw new DataNotFoundException("Question not found");
         }
+    }
+
+    @Transactional
+    public Long create(String subject, String content) {
+        return questionRepository.save(Question.builder().subject(subject).content(content).createDate(LocalDateTime.now()).build()).getId();
     }
 }
 

@@ -6,6 +6,10 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
             <div class="d-flex justify-content-end">
+                <div th:if="${question.getModifyDate() != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(question.getModifyDate(), 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${question.getAuthor() != null}"
@@ -34,6 +38,10 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="d-flex justify-content-end">
+                <div th:if="${answer.getModifyDate() != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(question.getModifyDate(), 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${answer.getAuthor() != null}"
@@ -41,6 +49,16 @@
                     </div>
                     <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+            </div>
+            <div class="my-3">
+                <a th:href="@{|/answer/modify/${answer.getId()}|}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${answer.getAuthor() != null and #authentication.getPrincipal().getUsername() == answer.getAuthor().getUsername()}"
+                   th:text="수정"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.getId()}|}"
+                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:if="${answer.getAuthor() != null and #authentication.getPrincipal().getUsername() == answer.getAuthor().getUsername()}"
+                   th:text="삭제"></a>
             </div>
         </div>
     </div>
@@ -60,7 +78,8 @@
         element.addEventListener('click', function () {
             if (confirm("정말로 삭제하시겠습니까?")) {
                 location.href = this.dataset.uri;
-            };
+            }
+            ;
         });
     });
 </script>

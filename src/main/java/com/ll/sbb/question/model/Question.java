@@ -1,6 +1,7 @@
 package com.ll.sbb.question.model;
 
 import com.ll.sbb.answer.model.Answer;
+import com.ll.sbb.user.model.SiteUser;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -30,4 +31,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    @ManyToOne
+    private SiteUser author;
 }

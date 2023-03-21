@@ -3,6 +3,7 @@ package com.ll.sbb.question.service;
 import com.ll.sbb.DataNotFoundException;
 import com.ll.sbb.question.model.Question;
 import com.ll.sbb.question.repository.QuestionRepository;
+import com.ll.sbb.user.model.SiteUser;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,8 +38,14 @@ public class QuestionService {
     }
 
     @Transactional
-    public Long create(String subject, String content) {
-        return questionRepository.save(Question.builder().subject(subject).content(content).createDate(LocalDateTime.now()).build()).getId();
+    public Long create(String subject, String content, SiteUser siteUser) {
+        return questionRepository.save(Question.builder()
+                .subject(subject)
+                .content(content)
+                .createDate(LocalDateTime.now())
+                .author(siteUser)
+                .build()
+        ).getId();
     }
 
     public Page<Question> getList(int page) {

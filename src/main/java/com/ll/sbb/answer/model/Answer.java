@@ -1,6 +1,7 @@
 package com.ll.sbb.answer.model;
 
 import com.ll.sbb.question.model.Question;
+import com.ll.sbb.user.model.SiteUser;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,4 +28,7 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }

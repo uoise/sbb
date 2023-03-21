@@ -48,12 +48,31 @@ public class QuestionService {
         ).getId();
     }
 
+    @Transactional
     public Page<Question> getList(int page) {
         // wtf
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return questionRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public Long modify(Question question, String subject, String content) {
+        return questionRepository.save(Question.builder()
+                .id(question.getId())
+                .author(question.getAuthor())
+                .createDate(question.getCreateDate())
+                .modifyDate(LocalDateTime.now())
+                .subject(subject)
+                .content(content)
+                .build()
+        ).getId();
+    }
+
+    @Transactional
+    public void delete(Question question) {
+        questionRepository.delete(question);
     }
 }
 

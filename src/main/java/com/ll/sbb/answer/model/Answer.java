@@ -5,6 +5,7 @@ import com.ll.sbb.user.model.SiteUser;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +26,9 @@ public class Answer {
 
     @CreatedDate
     private LocalDateTime createDate;
+
+    @LastModifiedDate
+    private LocalDateTime modifyDate;
 
     @ManyToOne
     private Question question;

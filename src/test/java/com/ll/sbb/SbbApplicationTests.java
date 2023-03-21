@@ -5,6 +5,7 @@ import com.ll.sbb.answer.repository.AnswerRepository;
 import com.ll.sbb.question.model.Question;
 import com.ll.sbb.question.repository.QuestionRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,10 @@ class SbbApplicationTests {
 
     @Autowired
     private AnswerRepository answerRepository;
+
+    @BeforeEach
+    void testInit() {
+    }
 
     @Test
     void contextLoads() {

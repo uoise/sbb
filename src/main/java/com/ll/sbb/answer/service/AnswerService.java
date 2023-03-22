@@ -18,14 +18,13 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     @Transactional
-    public Long create(Question question, String content, SiteUser author) {
+    public Answer create(Question question, String content, SiteUser author) {
         return answerRepository.save(Answer.builder()
                 .content(content)
                 .createDate(LocalDateTime.now())
                 .question(question)
                 .author(author)
-                .build()
-        ).getId();
+                .build());
     }
 
     @Transactional
@@ -39,7 +38,7 @@ public class AnswerService {
     }
 
     @Transactional
-    public Long modify(Answer answer, String content) {
+    public Answer modify(Answer answer, String content) {
         return answerRepository.save(Answer.builder()
                 .id(answer.getId())
                 .author(answer.getAuthor())
@@ -47,8 +46,7 @@ public class AnswerService {
                 .createDate(answer.getCreateDate())
                 .modifyDate(LocalDateTime.now())
                 .content(content)
-                .build()
-        ).getId();
+                .build());
     }
 
     @Transactional
@@ -57,8 +55,8 @@ public class AnswerService {
     }
 
     @Transactional
-    public void vote(Answer answer, SiteUser siteUser) {
+    public Answer vote(Answer answer, SiteUser siteUser) {
         answer.getVoter().add(siteUser);
-        answerRepository.save(answer);
+        return answerRepository.save(answer);
     }
 }

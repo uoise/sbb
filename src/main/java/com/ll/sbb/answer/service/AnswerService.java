@@ -17,6 +17,7 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
+    @Transactional
     public Long create(Question question, String content, SiteUser author) {
         return answerRepository.save(Answer.builder()
                 .content(content)
@@ -37,6 +38,7 @@ public class AnswerService {
         }
     }
 
+    @Transactional
     public Long modify(Answer answer, String content) {
         return answerRepository.save(Answer.builder()
                 .id(answer.getId())
@@ -49,7 +51,14 @@ public class AnswerService {
         ).getId();
     }
 
+    @Transactional
     public void delete(Answer answer) {
         answerRepository.delete(answer);
+    }
+
+    @Transactional
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
+        answerRepository.save(answer);
     }
 }

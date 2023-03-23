@@ -1,5 +1,6 @@
 package com.ll.sbb.question.controller;
 
+import com.ll.sbb.PageRequest;
 import com.ll.sbb.answer.model.AnswerForm;
 import com.ll.sbb.question.model.Question;
 import com.ll.sbb.question.model.QuestionForm;
@@ -8,7 +9,7 @@ import com.ll.sbb.user.model.SiteUser;
 import com.ll.sbb.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,9 @@ public class QuestionController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+    public String list(Model model, PageRequest pageRequest,
                        @RequestParam(value = "kw", defaultValue = "") String kw) {
-        Page<Question> paging = questionService.getList(page, kw);
+        PageImpl<Question> paging = questionService.getList(kw, pageRequest.of());
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
         return "question_list";

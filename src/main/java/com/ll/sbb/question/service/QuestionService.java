@@ -3,15 +3,13 @@ package com.ll.sbb.question.service;
 import com.ll.sbb.DataNotFoundException;
 import com.ll.sbb.answer.model.Answer;
 import com.ll.sbb.question.model.Question;
+import com.ll.sbb.question.repository.QuestionCustomRepository;
 import com.ll.sbb.question.repository.QuestionRepository;
 import com.ll.sbb.user.model.SiteUser;
 import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionCustomRepository questionCustomRepository;
 
     private Specification<Question> search(String kw) {
         return new Specification<>() {
@@ -44,13 +43,9 @@ public class QuestionService {
         };
     }
 
-
     @Transactional
-    public Page<Question> getList(int page, String kw) {
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return questionRepository.findAllByKeyword(kw, pageable);
+    public PageImpl<Question> getList(String kw, Pageable pageable) {
+        return questionCustomRepository.findAllByKeyword(kw, pageable);
     }
 
     @Transactional
